@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace NunitSelenium.Login
 {
     [TestFixture]
+    [Parallelizable(ParallelScope.Fixtures)]
     public class LoginTest : Baseclass
     {
 
@@ -23,16 +24,16 @@ namespace NunitSelenium.Login
             string password = getJSon().dataextract("Validuser.password");
             string expResult = getJSon().dataextract("successText");
             pageObjectManager.getLoginpage().getUsername().SendKeys(username);
-            test.Log(Status.Pass, "Entered  Username");
+            test.Value.Log(Status.Pass, "Entered  Username");
             pageObjectManager.getLoginpage().getPassword().SendKeys(password);
-            test.Log(Status.Pass, "Entered  Password");
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            test.Value.Log(Status.Pass, "Entered  Password");
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver.Value;
             js.ExecuteScript("window.scrollBy(0,500);");
             pageObjectManager.getLoginpage().getSubmit().Click();
-            test.Log(Status.Pass, "User submitted the page");
+            test.Value.Log(Status.Pass, "User submitted the page");
             string successstext= pageObjectManager.GetLogoutPage().GetSuccess().Text;
             Assert.AreEqual(expResult, successstext);
-            test.Log(Status.Pass, "User successfully login in with text   "+ successstext);
+            test.Value.Log(Status.Pass, "User successfully login in with text   "+ successstext);
 
 
 
@@ -41,22 +42,22 @@ namespace NunitSelenium.Login
         [Test]
         public void IncorrectLogin()
         {
-            
+
 
             string Nusername = getJSon().dataextract("Invaliduser.usernameIncorrect");
             string Npassword = getJSon().dataextract("Invaliduser.passwordIncorrect");
             string expResult = getJSon().dataextract("errorText");
             pageObjectManager.getLoginpage().getUsername().SendKeys(Nusername);
-            test.Log(Status.Pass, "Entered  Username");
+            test.Value.Log(Status.Pass, "Entered  Username");
             pageObjectManager.getLoginpage().getPassword().SendKeys(Npassword);
-            test.Log(Status.Pass, "Entered  Password");
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            test.Value.Log(Status.Pass, "Entered  Password");
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver.Value;
             js.ExecuteScript("window.scrollBy(0,500);");
             pageObjectManager.getLoginpage().getSubmit().Click();
             Wait(pageObjectManager.getLoginpage().getError());
             string errortext = pageObjectManager.getLoginpage().getError().Text;
             Assert.AreEqual(expResult, errortext);
-            test.Log(Status.Pass, "Page rendered with error message  " + errortext);
+            test.Value.Log(Status.Pass, "Page rendered with error message  " + errortext);
 
 
 

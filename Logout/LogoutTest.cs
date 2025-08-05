@@ -9,9 +9,14 @@ using System.Threading.Tasks;
 
 namespace NunitSelenium.Logout
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.All)]
     public  class LogoutTest :Baseclass
     {
         [Test]
+        [Category("smoke")]
+
+
         public void Logout()
         {
             string username = getJSon().dataextract("Validuser.username");
@@ -19,21 +24,21 @@ namespace NunitSelenium.Logout
             string expResult = getJSon().dataextract("successText");
             string Title = getJSon().dataextract("Logintitle");
             pageObjectManager.getLoginpage().getUsername().SendKeys(username);
-            test.Log(Status.Pass, "Entered  Username");
+            test.Value.Log(Status.Pass, "Entered  Username");
             pageObjectManager.getLoginpage().getPassword().SendKeys(password);
-            test.Log(Status.Pass, "Entered  Password");
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            test.Value.Log(Status.Pass, "Entered  Password");
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver.Value;
             js.ExecuteScript("window.scrollBy(0,500);");
             pageObjectManager.getLoginpage().getSubmit().Click();
-            test.Log(Status.Pass, "User submitted the page");
+            test.Value.Log(Status.Pass, "User submitted the page");
             string successstext = pageObjectManager.GetLogoutPage().GetSuccess().Text;
             Assert.AreEqual(expResult, successstext);
-            test.Log(Status.Pass, "User successfully login in with text   " + successstext);
+            test.Value.Log(Status.Pass, "User successfully login in with text   " + successstext);
             pageObjectManager.GetLogoutPage().GetLogoutCTA().Click();
-            test.Log(Status.Pass, "User clicked Logout button");
+            test.Value.Log(Status.Pass, "User clicked Logout button");
             string Logintitle = pageObjectManager.getLoginpage().getLogintitle().Text;
             Assert.AreEqual(Title, Logintitle);
-            test.Log(Status.Pass, "User successfully login out and back to   " + Logintitle +" Page");
+            test.Value.Log(Status.Pass, "User successfully login out and back to   " + Logintitle +" Page");
         }
     }
 }

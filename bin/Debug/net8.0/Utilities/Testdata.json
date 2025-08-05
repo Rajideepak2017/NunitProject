@@ -1,0 +1,13 @@
+{
+  "Validuser": {
+    "username": "student",
+    "password": "Password123"
+  },
+  "Invaliduser": {
+    "usernameIncorrect": "student1",
+    "passwordIncorrect": "Password1234"
+  },
+  "successText": "Logged In Successfully",
+  "errorText": "Your username is invalid!",
+  "Logintitle": "Test login"
+}
